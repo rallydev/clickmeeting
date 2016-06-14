@@ -16,10 +16,6 @@ namespace ClickMeeting\Entity;
 class Participants extends EntityAbstract {
 
 
-    public function __construct($api_key, $room_id) {
-        parent::__construct($api_key,$room_id);
-        
-    }
     
         /**
      * Add new contact
