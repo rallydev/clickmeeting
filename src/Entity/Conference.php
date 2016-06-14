@@ -13,19 +13,22 @@ namespace ClickMeeting\Entity;
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
-class Conference extends EntityAbstract {
-    
-    public function getConference($room_id) {
-        
+class Conference extends EntityAbstract
+{
+
+    public function getConference($room_id)
+    {
+
         return $this->client->conference($room_id);
-        
+
     }
-    public function getConferences($status = 'active', $page = 1) {
-        
+    public function getConferences($status = 'active', $page = 1)
+    {
+
         return $this->client->conferences($status, $page);
-        
+
     }
-      /**
+    /**
      * Add conference
      * @param array $params
      */
@@ -50,9 +53,7 @@ class Conference extends EntityAbstract {
     {
         return $this->client->deleteConferenceRecordings($room_id);
     }
-    
-    
-  
+
     /**
      * Conference skins
      * @param int $room_id
@@ -64,9 +65,8 @@ class Conference extends EntityAbstract {
     {
         return $this->client->conferenceSkins();
     }
-    
-    
-     /**
+
+    /**
      * Get coference file library
      * @param int $room_id
      */
@@ -74,8 +74,5 @@ class Conference extends EntityAbstract {
     {
         return $this->client->conferenceFileLibrary($this->room_id);
     }
- 
- 
-    
-    
+
 }

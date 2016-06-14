@@ -13,15 +13,16 @@ namespace ClickMeeting\Entity;
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
-class Participants extends EntityAbstract {
+class Participants extends EntityAbstract
+{
 
+    public function __construct($api_key, $room_id)
+    {
+        parent::__construct($api_key, $room_id);
 
-    public function __construct($api_key, $room_id) {
-        parent::__construct($api_key,$room_id);
-        
     }
-    
-        /**
+
+    /**
      * Add new contact
      * @param array $params
      */
@@ -29,8 +30,8 @@ class Participants extends EntityAbstract {
     {
         return $this->client->addContact($params);
     }
-    
-       /**
+
+    /**
      * Conference generate tokens
      * @param int $room_id
      * @param array $params
@@ -50,14 +51,13 @@ class Participants extends EntityAbstract {
         return $this->client->conferenceTokens($room_id);
     }
 
-
-
     /**
      * Conference autologin hash
      * @param unknown $room_id
      * @param array $params
      */
-    public function conferenceAutologinHash(array $params) {
+    public function conferenceAutologinHash(array $params)
+    {
         $this->checkRoomId();
         return $this->client->conferenceAutologinHash($this->room_id, $params);
     }
@@ -69,13 +69,12 @@ class Participants extends EntityAbstract {
      * @param array $params
      * @return Ambigous <string, multitype:, mixed>
      */
-    public function sendConferenceEmailInvitations($lang, $params) {
+    public function sendConferenceEmailInvitations($lang, $params)
+    {
         $this->checkRoomId();
         return $this->client->sendConferenceEmailInvitations($this->room_id, $lang, $params);
     }
-    
-    
-    
+
     /**
      * Add conference registration
      * @param int $room_id
@@ -95,7 +94,5 @@ class Participants extends EntityAbstract {
     {
         return $this->client->conferenceRegistrations($this->room_id, $status);
     }
-    
-    
 
 }

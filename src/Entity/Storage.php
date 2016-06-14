@@ -13,6 +13,7 @@ namespace ClickMeeting\Entity;
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
-class Storage {
+class Storage
+{
     //put your code here
 }

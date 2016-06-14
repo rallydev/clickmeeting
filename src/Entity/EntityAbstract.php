@@ -13,46 +13,52 @@ namespace ClickMeeting\Entity;
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
-abstract class EntityAbstract {
+abstract class EntityAbstract
+{
 
     /**
-     * @var \ClickMeeting\Client 
+     * @var \ClickMeeting\Client
      */
     protected $client;
     protected $room_id;
     protected $api_key;
 
-    public function __construct($api_key, $room_id = null) {
+    public function __construct($api_key, $room_id = null)
+    {
 
         $this->api_key = $api_key;
 
         $this->checkApiKey();
-        
-        $this->setRoomId($room_id) ;
+
+        $this->setRoomId($room_id);
 
         $this->client = new \ClickMeeting\Client(['api_key' => $api_key]);
     }
 
-    public function setRoomId($room_id) {
+    public function setRoomId($room_id)
+    {
         if (!empty($room_id)) {
             $this->room_id = $room_id;
             return $this;
         }
     }
 
-    public function checkApiKey() {
+    public function checkApiKey()
+    {
         if (empty($this->api_key)) {
             throw new Exception('Please initialize this class using the api key');
         }
     }
 
-    public function checkRoomId() {
+    public function checkRoomId()
+    {
         if (empty($this->room_id)) {
             throw new Exception('Please initialize the room id.');
         }
     }
-    
-     public function checkSessionId() {
+
+    public function checkSessionId()
+    {
         if (empty($this->session_id)) {
             throw new Exception('Please initialize the session id.');
         }
