@@ -1,0 +1,20 @@
+{
+    "name": "korealex/clickmeeting",
+    "description": "API to easily add the powerful functionality of ClickMeeting Video Conferencing to your favorite applications.",
+     "type": "library",
+    "require": {
+        "phpunit/phpunit": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "ClickMeeting\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexis Rosa",
+            "email": "alexisjrosarivera@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
