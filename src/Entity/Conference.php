@@ -15,27 +15,41 @@ namespace ClickMeeting\Entity;
  */
 class Conference extends EntityAbstract
 {
-
+    /**
+     * Get Conference
+     * @param  integer $room_id [description]
+     * @return [type]          [description]
+     */
     public function getConference($room_id)
     {
 
         return $this->client->conference($room_id);
 
     }
+
+    /**
+     * Get Conferences
+     * @param  string  $status [description]
+     * @param  integer $page   [description]
+     * @return [type]          [description]
+     */
     public function getConferences($status = 'active', $page = 1)
     {
 
         return $this->client->conferences($status, $page);
 
     }
+
     /**
-     * Add conference
-     * @param array $params
+     * Create Conference
+     * @param  array  $params [description]
+     * @return [type]         [description]
      */
     public function createConference(array $params)
     {
         return $this->client->addConference($params);
     }
+
     /**
      * Edit conference
      * @param int $room_id
@@ -45,6 +59,7 @@ class Conference extends EntityAbstract
     {
         return $this->client->editConference($room_id, $params);
     }
+
     /**
      * Delete conference
      * @param int $room_id
@@ -64,15 +79,6 @@ class Conference extends EntityAbstract
     public function conferenceSkins()
     {
         return $this->client->conferenceSkins();
-    }
-
-    /**
-     * Get coference file library
-     * @param int $room_id
-     */
-    public function conferenceFileLibrary()
-    {
-        return $this->client->conferenceFileLibrary($this->room_id);
     }
 
 }
