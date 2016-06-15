@@ -60,7 +60,7 @@ class Conference extends EntityAbstract
      */
     public function editConference(array $params)
     {
-        return $this->client->editConference($room_id, $params);
+        return $this->client->editConference($this->room_id, $params);
     }
 
     /**
