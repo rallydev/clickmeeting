@@ -97,9 +97,6 @@ abstract class EntityAbstract
             throw new Exception('Please initialize the session id.');
         }
     }
-    public function toArray($response) {
-       return json_decode(json_encode($response), true);   
-       }
 
     /**
      * [toArray description].
@@ -112,4 +109,5 @@ abstract class EntityAbstract
     {
         return json_decode(json_encode($response), true);
     }
+
 }
