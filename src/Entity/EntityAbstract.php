@@ -91,4 +91,14 @@ abstract class EntityAbstract
         }
     }
 
+    /**
+     * [toArray description]
+     * @param  [type] $response [description]
+     * @return [type]           [description]
+     */
+    public function toArray($response)
+    {
+        return json_decode(json_encode($response), true);
+    }
+
 }

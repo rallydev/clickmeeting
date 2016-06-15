@@ -20,10 +20,10 @@ class Conference extends EntityAbstract
      * @param  integer $room_id [description]
      * @return [type]          [description]
      */
-    public function getConference($room_id)
+    public function getConference()
     {
 
-        return $this->client->conference($room_id);
+        return $this->client->conference($this->room_id);
 
     }
 
@@ -55,7 +55,7 @@ class Conference extends EntityAbstract
      * @param int $room_id
      * @param array $params
      */
-    public function editConference($room_id, array $params)
+    public function editConference(array $params)
     {
         return $this->client->editConference($room_id, $params);
     }
@@ -64,9 +64,9 @@ class Conference extends EntityAbstract
      * Delete conference
      * @param int $room_id
      */
-    public function deleteConference($room_id)
+    public function deleteConference()
     {
-        return $this->client->deleteConferenceRecordings($room_id);
+        return $this->client->deleteConferenceRecordings($this->room_id);
     }
 
     /**
