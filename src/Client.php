@@ -9,45 +9,50 @@
 namespace ClickMeeting;
 
 /**
- * Description of Client
+ * Description of Client.
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
 class Client
 {
     /**
-     * API url
+     * API url.
+     *
      * @var string
      */
     protected $url = 'https://api.clickmeeting.com/v1/';
 
     /**
-     * API key
+     * API key.
+     *
      * @var string
      */
     protected $api_key = null;
 
     /**
-     * Format
+     * Format.
+     *
      * @var string
      */
     protected $format = null; // json, xml, printr, js
 
     /**
-     * Curl options
+     * Curl options.
+     *
      * @var options
      */
-    protected $curl_options = array(
+    protected $curl_options = [
         CURLOPT_CONNECTTIMEOUT => 8,
-        CURLOPT_TIMEOUT => 8,
-    );
+        CURLOPT_TIMEOUT        => 8,
+    ];
 
     /**
-     * Error codes
+     * Error codes.
+     *
      * @var array
      */
-    protected $http_errors = array
-        (
+    protected $http_errors = 
+        [
         400 => '400 Bad Request',
         401 => '401 Unauthorized',
         403 => '403 Forbidden',
@@ -55,17 +60,20 @@ class Client
         422 => '422 Unprocessable Entity',
         500 => '500 Internal Server Error',
         501 => '501 Not Implemented',
-    );
+    ];
 
     /**
-     * Allowed formats
+     * Allowed formats.
+     *
      * @var unknown
      */
-    protected $formats = array('json', 'xml', 'js', 'printr');
+    protected $formats = ['json', 'xml', 'js', 'printr'];
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param array $params
+     *
      * @throws Exception
      */
     public function __construct(array $params)
@@ -80,13 +88,16 @@ class Client
     }
 
     /**
-     * Get response
+     * Get response.
+     *
      * @param string $method
      * @param string $path
-     * @param array $params
-     * @param bool $format_response
-     * @param bool $is_upload_file
+     * @param array  $params
+     * @param bool   $format_response
+     * @param bool   $is_upload_file
+     *
      * @throws Exception
+     *
      * @return string|array
      */
     protected function sendRequest($method, $path, $params = null, $format_response = true, $is_upload_file = false)
@@ -95,9 +106,9 @@ class Client
         $curl = curl_init();
 
         // set URL
-        curl_setopt($curl, CURLOPT_URL, $this->url . $path . '.' . (isset($this->format) ? $this->format : 'json'));
+        curl_setopt($curl, CURLOPT_URL, $this->url.$path.'.'.(isset($this->format) ? $this->format : 'json'));
         // set api key
-        $headers = array('X-Api-Key:' . $this->api_key);
+        $headers = ['X-Api-Key:'.$this->api_key];
 
         // is uplaoded file
         if (true == $is_upload_file) {
@@ -140,13 +151,13 @@ class Client
 
         if (isset($this->http_errors[$http_code])) {
             throw new Exception($response, $http_code);
-        } elseif (!in_array($http_code, array(200, 201))) {
-            throw new Exception('Response status code: ' . $http_code);
+        } elseif (!in_array($http_code, [200, 201])) {
+            throw new Exception('Response status code: '.$http_code);
         }
 
         // check for curl error
         if (0 < curl_errno($curl)) {
-            throw new Exception('Unable to connect to ' . $this->url . ' Error: ' . curl_error($curl));
+            throw new Exception('Unable to connect to '.$this->url.' Error: '.curl_error($curl));
         }
 
         // close the connection
@@ -156,30 +167,34 @@ class Client
         if (!isset($this->format) && true == $format_response) {
             $response = json_decode($response);
         }
+
         return $response;
     }
 
     /**
-     * Get conferences
+     * Get conferences.
+     *
      * @param string $status
-     * @param int $page
+     * @param int    $page
      */
     public function conferences($status = 'active', $page = 1)
     {
-        return $this->sendRequest('GET', 'conferences/' . $status . '?page=' . $page);
+        return $this->sendRequest('GET', 'conferences/'.$status.'?page='.$page);
     }
 
     /**
-     * Get conference
+     * Get conference.
+     *
      * @param unknown $room_id
      */
     public function conference($room_id)
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id);
+        return $this->sendRequest('GET', 'conferences/'.$room_id);
     }
 
     /**
-     * Add conference
+     * Add conference.
+     *
      * @param array $params
      */
     public function addConference(array $params)
@@ -188,51 +203,58 @@ class Client
     }
 
     /**
-     * Edit conference
-     * @param int $room_id
+     * Edit conference.
+     *
+     * @param int   $room_id
      * @param array $params
      */
     public function editConference($room_id, array $params)
     {
-        return $this->sendRequest('PUT', 'conferences/' . $room_id, $params);
+        return $this->sendRequest('PUT', 'conferences/'.$room_id, $params);
     }
 
     /**
-     * Delete conference
+     * Delete conference.
+     *
      * @param int $room_id
      */
     public function deleteConference($room_id)
     {
-        return $this->sendRequest('DELETE', 'conferences/' . $room_id);
+        return $this->sendRequest('DELETE', 'conferences/'.$room_id);
     }
 
     /**
-     * Conference autologin hash
+     * Conference autologin hash.
+     *
      * @param unknown $room_id
-     * @param array $params
+     * @param array   $params
      */
     public function conferenceAutologinHash($room_id, array $params)
     {
-        return $this->sendRequest('POST', 'conferences/' . $room_id . '/room/autologin_hash', $params);
+        return $this->sendRequest('POST', 'conferences/'.$room_id.'/room/autologin_hash', $params);
     }
 
     /**
-     * Send invitation mail
-     * @param int $room_id
+     * Send invitation mail.
+     *
+     * @param int    $room_id
      * @param string $lang
-     * @param array $params
+     * @param array  $params
+     *
      * @return Ambigous <string, multitype:, mixed>
      */
-    public function sendConferenceEmailInvitations($room_id, $lang = 'en', $params)
+    public function sendConferenceEmailInvitations($room_id, $lang, $params)
     {
-        return $this->sendRequest('POST', 'conferences/' . $room_id . '/invitation/email/' . $lang, $params);
+        return $this->sendRequest('POST', 'conferences/'.$room_id.'/invitation/email/'.$lang, $params);
     }
 
     /**
-     * Conference skins
-     * @param int $room_id
+     * Conference skins.
+     *
+     * @param int    $room_id
      * @param string $lang
-     * @param array $params
+     * @param array  $params
+     *
      * @return Ambigous <string, multitype:, mixed>
      */
     public function conferenceSkins()
@@ -241,66 +263,73 @@ class Client
     }
 
     /**
-     * Conference generate tokens
-     * @param int $room_id
+     * Conference generate tokens.
+     *
+     * @param int   $room_id
      * @param array $params
      */
     public function generateConferenceTokens($room_id, array $params)
     {
-        return $this->sendRequest('POST', 'conferences/' . $room_id . '/tokens', $params);
+        return $this->sendRequest('POST', 'conferences/'.$room_id.'/tokens', $params);
     }
 
     /**
-     * Get coference tokens
+     * Get coference tokens.
+     *
      * @param int $room_id
      */
     public function conferenceTokens($room_id)
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id . '/tokens');
+        return $this->sendRequest('GET', 'conferences/'.$room_id.'/tokens');
     }
 
     /**
-     * Get conference sessions
+     * Get conference sessions.
+     *
      * @param unknown $room_id
      */
     public function conferenceSessions($room_id)
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id . '/sessions');
+        return $this->sendRequest('GET', 'conferences/'.$room_id.'/sessions');
     }
 
     /**
-     * Get conference session
+     * Get conference session.
+     *
      * @param int $room_id
      * @param int $session_id
      */
     public function conferenceSession($room_id, $session_id)
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id . '/sessions/' . $session_id);
+        return $this->sendRequest('GET', 'conferences/'.$room_id.'/sessions/'.$session_id);
     }
 
     /**
-     * Get conference session attendees
+     * Get conference session attendees.
+     *
      * @param int $room_id
      * @param int $session_id
      */
     public function conferenceSessionAttendees($room_id, $session_id)
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id . '/sessions/' . $session_id . '/attendees');
+        return $this->sendRequest('GET', 'conferences/'.$room_id.'/sessions/'.$session_id.'/attendees');
     }
 
     /**
-     * Generate pdf report
-     * @param int $room_id
-     * @param int $session_id
+     * Generate pdf report.
+     *
+     * @param int    $room_id
+     * @param int    $session_id
      * @param string $lang
      */
     public function generateConferenceSessionPDF($room_id, $session_id, $lang = 'en')
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id . '/sessions/' . $session_id . '/generate-pdf/' . $lang);
+        return $this->sendRequest('GET', 'conferences/'.$room_id.'/sessions/'.$session_id.'/generate-pdf/'.$lang);
     }
 
     /**
-     * Add new contact
+     * Add new contact.
+     *
      * @param array $params
      */
     public function addContact($params)
@@ -309,7 +338,7 @@ class Client
     }
 
     /**
-     * Get timezone list
+     * Get timezone list.
      */
     public function timeZoneList()
     {
@@ -317,16 +346,17 @@ class Client
     }
 
     /**
-     * Get timezone by country
+     * Get timezone by country.
+     *
      * @param string $country
      */
     public function countryTimeZoneList($country)
     {
-        return $this->sendRequest('GET', 'time_zone_list/' . $country);
+        return $this->sendRequest('GET', 'time_zone_list/'.$country);
     }
 
     /**
-     * Get phone gateways
+     * Get phone gateways.
      */
     public function phoneGatewayList()
     {
@@ -334,38 +364,41 @@ class Client
     }
 
     /**
-     * Add conference registration
-     * @param int $room_id
+     * Add conference registration.
+     *
+     * @param int   $room_id
      * @param array $params
      */
     public function addConferenceRegistration($room_id, $params)
     {
-        return $this->sendRequest('POST', 'conferences/' . $room_id . '/registration', $params);
+        return $this->sendRequest('POST', 'conferences/'.$room_id.'/registration', $params);
     }
 
     /**
-     * Get conference registrants
-     * @param int $room_id
+     * Get conference registrants.
+     *
+     * @param int    $room_id
      * @param string $status
      */
     public function conferenceRegistrations($room_id, $status)
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id . '/registrations/' . $status);
+        return $this->sendRequest('GET', 'conferences/'.$room_id.'/registrations/'.$status);
     }
 
     /**
-     * Get conference session registants
-     * @param int $room_id
-     * @param int $session_id
+     * Get conference session registants.
+     *
+     * @param int    $room_id
+     * @param int    $session_id
      * @param string $status
      */
     public function conferenceSessionRegistrations($room_id, $session_id, $status)
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id . '/sessions' . $session_id . '/registrations/' . $status);
+        return $this->sendRequest('GET', 'conferences/'.$room_id.'/sessions'.$session_id.'/registrations/'.$status);
     }
 
     /**
-     * Get files from library
+     * Get files from library.
      */
     public function fileLibrary()
     {
@@ -373,80 +406,88 @@ class Client
     }
 
     /**
-     * Get coference file library
+     * Get coference file library.
+     *
      * @param int $room_id
      */
     public function conferenceFileLibrary($room_id)
     {
-        return $this->sendRequest('GET', 'file-library/conferences/' . $room_id);
+        return $this->sendRequest('GET', 'file-library/conferences/'.$room_id);
     }
 
     /**
-     * Get file details
+     * Get file details.
+     *
      * @param int $file_id
      */
     public function fileLibraryFile($file_id)
     {
-        return $this->sendRequest('GET', 'file-library/' . $file_id);
+        return $this->sendRequest('GET', 'file-library/'.$file_id);
     }
 
     /**
-     * Add file to library
+     * Add file to library.
+     *
      * @param string $file_path
      */
     public function addFileLibraryFile($file_path)
     {
-        return $this->sendRequest('POST', 'file-library', array('uploaded' => '@' . $file_path), true, true);
+        return $this->sendRequest('POST', 'file-library', ['uploaded' => '@'.$file_path], true, true);
     }
 
     /**
-     * Download file
+     * Download file.
+     *
      * @param int $file_id
      */
     public function fileLibraryContent($file_id)
     {
-        return $this->sendRequest('GET', 'file-library/' . $file_id . '/download', null, false);
+        return $this->sendRequest('GET', 'file-library/'.$file_id.'/download', null, false);
     }
 
     /**
-     * Delete file
+     * Delete file.
+     *
      * @param int $file_id
      */
     public function deleteFileLibraryFile($file_id)
     {
-        return $this->sendRequest('DELETE', 'file-library/' . $file_id);
+        return $this->sendRequest('DELETE', 'file-library/'.$file_id);
     }
 
     /**
-     * Get conference recordings
+     * Get conference recordings.
+     *
      * @param int $room_id
      */
     public function conferenceRecordings($room_id)
     {
-        return $this->sendRequest('GET', 'conferences/' . $room_id . '/recordings');
+        return $this->sendRequest('GET', 'conferences/'.$room_id.'/recordings');
     }
 
     /**
-     * Delete conference recordings
+     * Delete conference recordings.
+     *
      * @param int $room_id
      */
     public function deleteConferenceRecordings($room_id)
     {
-        return $this->sendRequest('DELETE', 'conferences/' . $room_id . '/recordings');
+        return $this->sendRequest('DELETE', 'conferences/'.$room_id.'/recordings');
     }
 
     /**
-     * Delete conference recording
+     * Delete conference recording.
+     *
      * @param int $room_id
      * @param int $recording_id
      */
     public function deleteConferenceRecording($room_id, $recording_id)
     {
-        return $this->sendRequest('DELETE', 'conferences/' . $room_id . '/recordings/' . $recording_id);
+        return $this->sendRequest('DELETE', 'conferences/'.$room_id.'/recordings/'.$recording_id);
     }
 
     /**
-     * Get chats
+     * Get chats.
      */
     public function chats()
     {
@@ -454,11 +495,12 @@ class Client
     }
 
     /**
-     * Get chat record
+     * Get chat record.
+     *
      * @param int $session_id
      */
     public function conferenceSessionChats($session_id)
     {
-        return $this->sendRequest('GET', 'chats/' . $session_id, null, false);
+        return $this->sendRequest('GET', 'chats/'.$session_id, null, false);
     }
 }

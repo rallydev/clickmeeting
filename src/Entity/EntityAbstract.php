@@ -9,32 +9,34 @@
 namespace ClickMeeting\Entity;
 
 /**
- * Description of EntityAbstract
+ * Description of EntityAbstract.
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
 abstract class EntityAbstract
 {
-
     /**
      * @var \ClickMeeting\Client
      */
     protected $client;
 
     /**
-     * [$room_id description]
+     * [$room_id description].
+     *
      * @var [type]
      */
     protected $room_id;
 
     /**
-     * [$api_key description]
+     * [$api_key description].
+     *
      * @var [type]
      */
     protected $api_key;
 
     /**
-     * [__construct description]
+     * [__construct description].
+     *
      * @param [type] $api_key [description]
      * @param [type] $room_id [description]
      */
@@ -47,19 +49,22 @@ abstract class EntityAbstract
     }
 
     /**
-     * [setRoomId description]
+     * [setRoomId description].
+     *
      * @param [type] $room_id [description]
      */
     public function setRoomId(Int $room_id)
     {
         if (!empty($room_id)) {
             $this->room_id = $room_id;
+
             return $this;
         }
     }
 
     /**
-     * [checkApiKey description]
+     * [checkApiKey description].
+     *
      * @return [type] [description]
      */
     public function checkApiKey()
@@ -70,7 +75,8 @@ abstract class EntityAbstract
     }
 
     /**
-     * [checkRoomId description]
+     * [checkRoomId description].
+     *
      * @return [type] [description]
      */
     public function checkRoomId()
@@ -81,7 +87,8 @@ abstract class EntityAbstract
     }
 
     /**
-     * [checkSessionId description]
+     * [checkSessionId description].
+     *
      * @return [type] [description]
      */
     public function checkSessionId()
@@ -92,13 +99,14 @@ abstract class EntityAbstract
     }
 
     /**
-     * [toArray description]
-     * @param  [type] $response [description]
-     * @return [type]           [description]
+     * [toArray description].
+     *
+     * @param [type] $response [description]
+     *
+     * @return [type] [description]
      */
     public function toArray($response)
     {
         return json_decode(json_encode($response), true);
     }
-
 }

@@ -9,41 +9,43 @@
 namespace ClickMeeting\Entity;
 
 /**
- * Description of Conference
+ * Description of Conference.
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
 class Conference extends EntityAbstract
 {
     /**
-     * Get Conference
-     * @param  integer $room_id [description]
-     * @return [type]          [description]
+     * Get Conference.
+     *
+     * @param int $room_id [description]
+     *
+     * @return [type] [description]
      */
     public function getConference()
     {
-
         return $this->client->conference($this->room_id);
-
     }
 
     /**
-     * Get Conferences
-     * @param  string  $status [description]
-     * @param  integer $page   [description]
-     * @return [type]          [description]
+     * Get Conferences.
+     *
+     * @param string $status [description]
+     * @param int    $page   [description]
+     *
+     * @return [type] [description]
      */
     public function getConferences($status = 'active', $page = 1)
     {
-
         return $this->client->conferences($status, $page);
-
     }
 
     /**
-     * Create Conference
-     * @param  array  $params [description]
-     * @return [type]         [description]
+     * Create Conference.
+     *
+     * @param array $params [description]
+     *
+     * @return [type] [description]
      */
     public function createConference(array $params)
     {
@@ -51,8 +53,9 @@ class Conference extends EntityAbstract
     }
 
     /**
-     * Edit conference
-     * @param int $room_id
+     * Edit conference.
+     *
+     * @param int   $room_id
      * @param array $params
      */
     public function editConference(array $params)
@@ -61,7 +64,8 @@ class Conference extends EntityAbstract
     }
 
     /**
-     * Delete conference
+     * Delete conference.
+     *
      * @param int $room_id
      */
     public function deleteConference()
@@ -70,15 +74,16 @@ class Conference extends EntityAbstract
     }
 
     /**
-     * Conference skins
-     * @param int $room_id
+     * Conference skins.
+     *
+     * @param int    $room_id
      * @param string $lang
-     * @param array $params
+     * @param array  $params
+     *
      * @return Ambigous <string, multitype:, mixed>
      */
     public function conferenceSkins()
     {
         return $this->client->conferenceSkins();
     }
-
 }
