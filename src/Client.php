@@ -8,6 +8,7 @@
  */
 
 namespace ClickMeeting;
+
 use Exception;
 
 /**
@@ -53,7 +54,7 @@ class Client
      *
      * @var array
      */
-    protected $http_errors = 
+    protected $http_errors =
         [
         400 => '400 Bad Request',
         401 => '401 Unauthorized',

@@ -109,5 +109,4 @@ abstract class EntityAbstract
     {
         return json_decode(json_encode($response), true);
     }
-
 }
