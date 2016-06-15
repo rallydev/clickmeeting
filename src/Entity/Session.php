@@ -9,7 +9,7 @@
 namespace ClickMeeting\Entity;
 
 /**
- * Description of Session
+ * Description of Session.
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
@@ -28,21 +28,25 @@ class Session extends EntityAbstract
     {
         if (!empty($session_id)) {
             $this->session_id = $session_id;
+
             return $this;
         }
         $this->checkSessionId();
     }
 
     /**
-     * Get conference sessions
+     * Get conference sessions.
+     *
      * @param unknown $room_id
      */
     public function conferenceSessions()
     {
         return $this->client->conferenceSessions($this->room_id);
     }
+
     /**
-     * Get conference session
+     * Get conference session.
+     *
      * @param int $room_id
      * @param int $session_id
      */
@@ -50,8 +54,10 @@ class Session extends EntityAbstract
     {
         return $this->conferenceSession($this->room_id, $this->session_id);
     }
+
     /**
-     * Get conference session attendees
+     * Get conference session attendees.
+     *
      * @param int $room_id
      * @param int $session_id
      */
@@ -59,10 +65,12 @@ class Session extends EntityAbstract
     {
         return $this->client->conferenceSessionAttendees($this->room_id, $this->session_id);
     }
+
     /**
-     * Generate pdf report
-     * @param int $room_id
-     * @param int $session_id
+     * Generate pdf report.
+     *
+     * @param int    $room_id
+     * @param int    $session_id
      * @param string $lang
      */
     public function generateConferenceSessionPDF($lang = 'en')
@@ -71,14 +79,14 @@ class Session extends EntityAbstract
     }
 
     /**
-     * Get conference session registants
-     * @param int $room_id
-     * @param int $session_id
+     * Get conference session registants.
+     *
+     * @param int    $room_id
+     * @param int    $session_id
      * @param string $status
      */
     public function conferenceSessionRegistrations($status)
     {
         return $this->client->conferenceSessionRegistrations($this->room_id, $this->session_id, $status);
     }
-
 }

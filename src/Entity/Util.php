@@ -9,37 +9,41 @@
 namespace ClickMeeting\Entity;
 
 /**
- * Description of Storage
+ * Description of Storage.
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
 class Util extends EntityAbstract
 {
-	/**
-	 * [getTimeZoneList description]
-	 * @return [type] [description]
-	 */
-	public function getTimeZoneList()
-	{
-		return $this->timeZoneList();
-	}
-
-	/**
-	 * [getCountryTimeZoneList description]
-	 * @param  String $country [description]
-	 * @return [type]          [description]
-	 */
-    public function getCountryTimeZoneList(String $country)
+    /**
+     * [getTimeZoneList description].
+     *
+     * @return [type] [description]
+     */
+    public function getTimeZoneList()
     {
-    	return $this->countryTimeZoneList($country);
+        return $this->timeZoneList();
     }
 
     /**
-     * [getPhoneGatewayList description]
+     * [getCountryTimeZoneList description].
+     *
+     * @param string $country [description]
+     *
+     * @return [type] [description]
+     */
+    public function getCountryTimeZoneList(String $country)
+    {
+        return $this->countryTimeZoneList($country);
+    }
+
+    /**
+     * [getPhoneGatewayList description].
+     *
      * @return [type] [description]
      */
     public function getPhoneGatewayList()
     {
-		return $this->phoneGatewayList();
-	}
+        return $this->phoneGatewayList();
+    }
 }
