@@ -2,6 +2,8 @@
 
 korealex/clickmeeting is a PHP 5.4+ REST API to easily add the powerful functionality of ClickMeeting Video Conferencing to your favorite applications.
 
+This project adheres to a [Contributor Code of Conduct][conduct]. By participating in this project and its community, you are expected to uphold this code.
+
 ## About
 
 From [Wikipedia](https://en.wikipedia.org/wiki/Web_conferencing):
@@ -10,22 +12,45 @@ From [Wikipedia](https://en.wikipedia.org/wiki/Web_conferencing):
 
 > In general, web conferencing is made possible by Internet technologies, particularly on TCP/IP connections. Services may allow real-time point-to-point communications as well as multicast communications from one sender to many receivers. It offers data streams of text-based messages, voice and video chat to be shared simultaneously, across geographically dispersed locations. Applications for web conferencing include meetings, training events, lectures, or presentations from a web-connected computer to other web-connected computers.
 
-
-### Much inspiration for this API came from the ClickMeeting/DevZone repository.
-
+Much inspiration for this API came from the ClickMeeting/DevZone repository.
 
 ## Installation
 
+The preferred method of installation is via [Packagist][] and [Composer][]. Run the following command to install the package and add it as a requirement to your project's `composer.json`:
+
+```bash
+composer require korealex/clickmeeting
+```
+
 ## Requirements
+
+This api requieres:
+> "phpunit/phpunit": "^5.4",
+"fzaninotto/faker": "^1.5",
+"apigen/apigen": "^4.1"
 
 ## API documentation
 
+This project uses [ApiGen](http://apigen.org/) to generate this documentation. To generate the documentation on your own, install dev dependencies and run the following command from the root of the project:
+
+```
+./vendor/bin/apigen generate --source="src" --destination="build/apidocs" --title="korealex/clickmeeting" --template-theme="bootstrap" --deprecated --todo
+```
+
+This will generate documentation in the `build/apidocs/` folder.
+
 ## Examples
 
+SOON
 
 ## Contributing
 
+Contributions are welcome!
 
 ## Copyright and license
 
-The korealex/clickmeeting API is copyright © [Alexis Rosa](https://alexisrosa.com/) and licensed for use under the MIT License (MIT).
+The korealex/clickmeeting API is copyright © [Alexis Rosa](https://github.com/korealex/) and licensed for use under the MIT License (MIT).
+
+[packagist]: https://packagist.org/packages/korealex/clickmeeting
+[composer]: http://getcomposer.org/
+
