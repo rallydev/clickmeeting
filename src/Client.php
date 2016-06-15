@@ -11,44 +11,50 @@ namespace ClickMeeting;
 use Exception;
 
 /**
- * Description of Client
+ * Description of Client.
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
-class Client {
+class Client
+{
     /**
-     * API url
+     * API url.
+     *
      * @var string
      */
     protected $url = 'https://api.clickmeeting.com/v1/';
 
     /**
-     * API key
+     * API key.
+     *
      * @var string
      */
     protected $api_key = null;
 
     /**
-     * Format
+     * Format.
+     *
      * @var string
      */
     protected $format = null; // json, xml, printr, js
 
     /**
-     * Curl options
+     * Curl options.
+     *
      * @var options
      */
-    protected $curl_options = array(
+    protected $curl_options = [
         CURLOPT_CONNECTTIMEOUT => 8,
-        CURLOPT_TIMEOUT => 8
-    );
+        CURLOPT_TIMEOUT        => 8,
+    ];
 
     /**
-     * Error codes
+     * Error codes.
+     *
      * @var array
      */
-    protected $http_errors = array
-    (
+    protected $http_errors = 
+        [
         400 => '400 Bad Request',
         401 => '401 Unauthorized',
         403 => '403 Forbidden',
@@ -56,23 +62,25 @@ class Client {
         422 => '422 Unprocessable Entity',
         500 => '500 Internal Server Error',
         501 => '501 Not Implemented',
-    );
+    ];
 
     /**
-     * Allowed formats
+     * Allowed formats.
+     *
      * @var unknown
      */
-    protected $formats = array('json', 'xml', 'js', 'printr');
+    protected $formats = ['json', 'xml', 'js', 'printr'];
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param array $params
+     *
      * @throws Exception
      */
     public function __construct(array $params)
     {
-        if (false === extension_loaded('curl'))
-        {
+        if (false === extension_loaded('curl')) {
             throw new Exception('The curl extension must be loaded for using this class!');
         }
 
@@ -81,15 +89,17 @@ class Client {
         $this->format = isset($params['format']) && in_array(strtolower($params['format']), $this->formats) ? strtolower($params['format']) : $this->format;
     }
 
-
     /**
-     * Get response
+     * Get response.
+     *
      * @param string $method
      * @param string $path
-     * @param array $params
-     * @param bool $format_response
-     * @param bool $is_upload_file
+     * @param array  $params
+     * @param bool   $format_response
+     * @param bool   $is_upload_file
+     *
      * @throws Exception
+     *
      * @return string|array
      */
     protected function sendRequest($method, $path, $params = null, $format_response = true, $is_upload_file = false)
@@ -100,11 +110,10 @@ class Client {
         // set URL
         curl_setopt($curl, CURLOPT_URL, $this->url.$path.'.'.(isset($this->format) ? $this->format : 'json'));
         // set api key
-        $headers = array( 'X-Api-Key:' . $this->api_key);
+        $headers = ['X-Api-Key:'.$this->api_key];
 
         // is uplaoded file
-        if (true == $is_upload_file)
-        {
+        if (true == $is_upload_file) {
             $headers[] = 'Content-type: multipart/form-data';
         }
 
@@ -117,8 +126,7 @@ class Client {
                 $headers[] = 'Expect:';
                 break;
             case 'PUT':
-                if(empty($params))
-                {
+                if (empty($params)) {
                     $headers[] = 'Content-Length: 0';
                 }
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
@@ -130,8 +138,7 @@ class Client {
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
         // add params
-        if (!empty($params))
-        {
+        if (!empty($params)) {
             curl_setopt($curl, CURLOPT_POSTFIELDS, $is_upload_file ? $params : http_build_query($params));
         }
 
@@ -144,44 +151,42 @@ class Client {
 
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-        if (isset($this->http_errors[$http_code]))
-        {
+        if (isset($this->http_errors[$http_code])) {
             throw new Exception($response, $http_code);
-        }
-        elseif (!in_array($http_code, array(200,201)))
-        {
-            throw new Exception('Response status code: ' . $http_code);
+        } elseif (!in_array($http_code, [200, 201])) {
+            throw new Exception('Response status code: '.$http_code);
         }
 
         // check for curl error
-        if (0 < curl_errno($curl))
-        {
-            throw new Exception('Unable to connect to '.$this->url . ' Error: ' . curl_error($curl));
+        if (0 < curl_errno($curl)) {
+            throw new Exception('Unable to connect to '.$this->url.' Error: '.curl_error($curl));
         }
 
         // close the connection
         curl_close($curl);
 
         // check return format
-        if (!isset($this->format) && true == $format_response)
-        {
+        if (!isset($this->format) && true == $format_response) {
             $response = json_decode($response);
         }
+
         return $response;
     }
 
     /**
-     * Get conferences
+     * Get conferences.
+     *
      * @param string $status
-     * @param int $page
+     * @param int    $page
      */
     public function conferences($status = 'active', $page = 1)
     {
-        return $this->sendRequest('GET', 'conferences/'.$status . '?page=' . $page);
+        return $this->sendRequest('GET', 'conferences/'.$status.'?page='.$page);
     }
 
     /**
-     * Get conference
+     * Get conference.
+     *
      * @param unknown $room_id
      */
     public function conference($room_id)
@@ -190,7 +195,8 @@ class Client {
     }
 
     /**
-     * Add conference
+     * Add conference.
+     *
      * @param array $params
      */
     public function addConference(array $params)
@@ -199,8 +205,9 @@ class Client {
     }
 
     /**
-     * Edit conference
-     * @param int $room_id
+     * Edit conference.
+     *
+     * @param int   $room_id
      * @param array $params
      */
     public function editConference($room_id, array $params)
@@ -209,7 +216,8 @@ class Client {
     }
 
     /**
-     * Delete conference
+     * Delete conference.
+     *
      * @param int $room_id
      */
     public function deleteConference($room_id)
@@ -218,9 +226,10 @@ class Client {
     }
 
     /**
-     * Conference autologin hash
+     * Conference autologin hash.
+     *
      * @param unknown $room_id
-     * @param array $params
+     * @param array   $params
      */
     public function conferenceAutologinHash($room_id, array $params)
     {
@@ -228,22 +237,26 @@ class Client {
     }
 
     /**
-     * Send invitation mail
-     * @param int $room_id
+     * Send invitation mail.
+     *
+     * @param int    $room_id
      * @param string $lang
-     * @param array $params
+     * @param array  $params
+     *
      * @return Ambigous <string, multitype:, mixed>
      */
-    public function sendConferenceEmailInvitations($room_id, $lang = 'en', $params)
+    public function sendConferenceEmailInvitations($room_id, $lang, $params)
     {
         return $this->sendRequest('POST', 'conferences/'.$room_id.'/invitation/email/'.$lang, $params);
     }
 
     /**
-     * Conference skins
-     * @param int $room_id
+     * Conference skins.
+     *
+     * @param int    $room_id
      * @param string $lang
-     * @param array $params
+     * @param array  $params
+     *
      * @return Ambigous <string, multitype:, mixed>
      */
     public function conferenceSkins()
@@ -252,8 +265,9 @@ class Client {
     }
 
     /**
-     * Conference generate tokens
-     * @param int $room_id
+     * Conference generate tokens.
+     *
+     * @param int   $room_id
      * @param array $params
      */
     public function generateConferenceTokens($room_id, array $params)
@@ -262,7 +276,8 @@ class Client {
     }
 
     /**
-     * Get coference tokens
+     * Get coference tokens.
+     *
      * @param int $room_id
      */
     public function conferenceTokens($room_id)
@@ -271,7 +286,8 @@ class Client {
     }
 
     /**
-     * Get conference sessions
+     * Get conference sessions.
+     *
      * @param unknown $room_id
      */
     public function conferenceSessions($room_id)
@@ -280,7 +296,8 @@ class Client {
     }
 
     /**
-     * Get conference session
+     * Get conference session.
+     *
      * @param int $room_id
      * @param int $session_id
      */
@@ -290,7 +307,8 @@ class Client {
     }
 
     /**
-     * Get conference session attendees
+     * Get conference session attendees.
+     *
      * @param int $room_id
      * @param int $session_id
      */
@@ -300,9 +318,10 @@ class Client {
     }
 
     /**
-     * Generate pdf report
-     * @param int $room_id
-     * @param int $session_id
+     * Generate pdf report.
+     *
+     * @param int    $room_id
+     * @param int    $session_id
      * @param string $lang
      */
     public function generateConferenceSessionPDF($room_id, $session_id, $lang = 'en')
@@ -311,7 +330,8 @@ class Client {
     }
 
     /**
-     * Add new contact
+     * Add new contact.
+     *
      * @param array $params
      */
     public function addContact($params)
@@ -320,7 +340,7 @@ class Client {
     }
 
     /**
-     * Get timezone list
+     * Get timezone list.
      */
     public function timeZoneList()
     {
@@ -328,7 +348,8 @@ class Client {
     }
 
     /**
-     * Get timezone by country
+     * Get timezone by country.
+     *
      * @param string $country
      */
     public function countryTimeZoneList($country)
@@ -337,7 +358,7 @@ class Client {
     }
 
     /**
-     * Get phone gateways
+     * Get phone gateways.
      */
     public function phoneGatewayList()
     {
@@ -345,8 +366,9 @@ class Client {
     }
 
     /**
-     * Add conference registration
-     * @param int $room_id
+     * Add conference registration.
+     *
+     * @param int   $room_id
      * @param array $params
      */
     public function addConferenceRegistration($room_id, $params)
@@ -355,8 +377,9 @@ class Client {
     }
 
     /**
-     * Get conference registrants
-     * @param int $room_id
+     * Get conference registrants.
+     *
+     * @param int    $room_id
      * @param string $status
      */
     public function conferenceRegistrations($room_id, $status)
@@ -365,9 +388,10 @@ class Client {
     }
 
     /**
-     * Get conference session registants
-     * @param int $room_id
-     * @param int $session_id
+     * Get conference session registants.
+     *
+     * @param int    $room_id
+     * @param int    $session_id
      * @param string $status
      */
     public function conferenceSessionRegistrations($room_id, $session_id, $status)
@@ -376,7 +400,7 @@ class Client {
     }
 
     /**
-     * Get files from library
+     * Get files from library.
      */
     public function fileLibrary()
     {
@@ -384,7 +408,8 @@ class Client {
     }
 
     /**
-     * Get coference file library
+     * Get coference file library.
+     *
      * @param int $room_id
      */
     public function conferenceFileLibrary($room_id)
@@ -393,7 +418,8 @@ class Client {
     }
 
     /**
-     * Get file details
+     * Get file details.
+     *
      * @param int $file_id
      */
     public function fileLibraryFile($file_id)
@@ -402,16 +428,18 @@ class Client {
     }
 
     /**
-     * Add file to library
+     * Add file to library.
+     *
      * @param string $file_path
      */
     public function addFileLibraryFile($file_path)
     {
-        return $this->sendRequest('POST', 'file-library', array('uploaded' => '@'.$file_path), true, true);
+        return $this->sendRequest('POST', 'file-library', ['uploaded' => '@'.$file_path], true, true);
     }
 
     /**
-     * Download file
+     * Download file.
+     *
      * @param int $file_id
      */
     public function fileLibraryContent($file_id)
@@ -420,7 +448,8 @@ class Client {
     }
 
     /**
-     * Delete file
+     * Delete file.
+     *
      * @param int $file_id
      */
     public function deleteFileLibraryFile($file_id)
@@ -429,7 +458,8 @@ class Client {
     }
 
     /**
-     * Get conference recordings
+     * Get conference recordings.
+     *
      * @param int $room_id
      */
     public function conferenceRecordings($room_id)
@@ -438,7 +468,8 @@ class Client {
     }
 
     /**
-     * Delete conference recordings
+     * Delete conference recordings.
+     *
      * @param int $room_id
      */
     public function deleteConferenceRecordings($room_id)
@@ -447,7 +478,8 @@ class Client {
     }
 
     /**
-     * Delete conference recording
+     * Delete conference recording.
+     *
      * @param int $room_id
      * @param int $recording_id
      */
@@ -457,7 +489,7 @@ class Client {
     }
 
     /**
-     * Get chats
+     * Get chats.
      */
     public function chats()
     {
@@ -465,7 +497,8 @@ class Client {
     }
 
     /**
-     * Get chat record
+     * Get chat record.
+     *
      * @param int $session_id
      */
     public function conferenceSessionChats($session_id)

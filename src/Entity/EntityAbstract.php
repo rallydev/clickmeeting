@@ -9,50 +9,90 @@
 namespace ClickMeeting\Entity;
 
 /**
- * Description of EntityAbstract
+ * Description of EntityAbstract.
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
-abstract class EntityAbstract {
-
+abstract class EntityAbstract
+{
     /**
-     * @var \ClickMeeting\Client 
+     * @var \ClickMeeting\Client
      */
     protected $client;
+
+    /**
+     * [$room_id description].
+     *
+     * @var [type]
+     */
     protected $room_id;
+
+    /**
+     * [$api_key description].
+     *
+     * @var [type]
+     */
     protected $api_key;
 
-    public function __construct($api_key, $room_id = null) {
-
+    /**
+     * [__construct description].
+     *
+     * @param [type] $api_key [description]
+     * @param [type] $room_id [description]
+     */
+    public function __construct(String $api_key, Int $room_id = null)
+    {
         $this->api_key = $api_key;
-
         $this->checkApiKey();
-        
-        $this->setRoomId($room_id) ;
-
+        $this->setRoomId($room_id);
         $this->client = new \ClickMeeting\Client(['api_key' => $api_key]);
     }
 
-    public function setRoomId($room_id) {
+    /**
+     * [setRoomId description].
+     *
+     * @param [type] $room_id [description]
+     */
+    public function setRoomId(Int $room_id)
+    {
         if (!empty($room_id)) {
             $this->room_id = $room_id;
+
             return $this;
         }
     }
 
-    public function checkApiKey() {
+    /**
+     * [checkApiKey description].
+     *
+     * @return [type] [description]
+     */
+    public function checkApiKey()
+    {
         if (empty($this->api_key)) {
             throw new Exception('Please initialize this class using the api key');
         }
     }
 
-    public function checkRoomId() {
+    /**
+     * [checkRoomId description].
+     *
+     * @return [type] [description]
+     */
+    public function checkRoomId()
+    {
         if (empty($this->room_id)) {
             throw new Exception('Please initialize the room id.');
         }
     }
-    
-     public function checkSessionId() {
+
+    /**
+     * [checkSessionId description].
+     *
+     * @return [type] [description]
+     */
+    public function checkSessionId()
+    {
         if (empty($this->session_id)) {
             throw new Exception('Please initialize the session id.');
         }
@@ -61,4 +101,15 @@ abstract class EntityAbstract {
        return json_decode(json_encode($response), true);   
        }
 
+    /**
+     * [toArray description].
+     *
+     * @param [type] $response [description]
+     *
+     * @return [type] [description]
+     */
+    public function toArray($response)
+    {
+        return json_decode(json_encode($response), true);
+    }
 }

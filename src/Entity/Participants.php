@@ -9,89 +9,90 @@
 namespace ClickMeeting\Entity;
 
 /**
- * Description of Participants
+ * Description of Participants.
  *
  * @author Alexis J. Rosa Rivera <alexisjrosarivera@gmail.com>
  */
-class Participants extends EntityAbstract {
-
-
-    
-        /**
-     * Add new contact
+class Participants extends EntityAbstract
+{
+    /**
+     * Add new contact.
+     *
      * @param array $params
      */
-    public function addContact($params)
+    public function addContact(array $params)
     {
         return $this->client->addContact($params);
     }
-    
-       /**
-     * Conference generate tokens
-     * @param int $room_id
+
+    /**
+     * Conference generate tokens.
+     *
      * @param array $params
      */
     public function generateConferenceTokens(array $params)
     {
         $this->checkRoomId();
+
         return $this->client->generateConferenceTokens($this->room_id, $params);
     }
+
     /**
-     * Get coference tokens
+     * Get coference tokens.
+     *
      * @param int $room_id
      */
-    public function conferenceTokens($room_id)
+    public function conferenceTokens(Int $room_id)
     {
         $this->checkRoomId();
+
         return $this->client->conferenceTokens($room_id);
     }
 
-
-
     /**
-     * Conference autologin hash
-     * @param unknown $room_id
+     * Conference autologin hash.
+     *
      * @param array $params
      */
-    public function conferenceAutologinHash(array $params) {
+    public function conferenceAutologinHash(array $params)
+    {
         $this->checkRoomId();
+
         return $this->client->conferenceAutologinHash($this->room_id, $params);
     }
 
     /**
-     * Send invitation mail
-     * @param int $room_id
+     * Send invitation mail.
+     *
      * @param string $lang
-     * @param array $params
+     * @param array  $params
+     *
      * @return Ambigous <string, multitype:, mixed>
      */
-    public function sendConferenceEmailInvitations($lang, $params) {
+    public function sendConferenceEmailInvitations(String $lang, array $params)
+    {
         $this->checkRoomId();
+
         return $this->client->sendConferenceEmailInvitations($this->room_id, $lang, $params);
     }
-    
-    
-    
+
     /**
-     * Add conference registration
-     * @param int $room_id
+     * Add conference registration.
+     *
      * @param array $params
      */
-    public function addConferenceRegistration($params)
+    public function addConferenceRegistration(array $params)
     {
         return $this->client->addConferenceRegistration($this->room_id, $params);
     }
 
     /**
-     * Get conference registrants
-     * @param int $room_id
+     * Get conference registrants.
+     *
      * @param string $status
      */
     public function conferenceRegistrations($status)
     {
         return $this->client->conferenceRegistrations($this->room_id, $status);
     }
-    
-    
-
 }
