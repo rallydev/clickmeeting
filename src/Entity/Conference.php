@@ -70,7 +70,7 @@ class Conference extends EntityAbstract
      */
     public function deleteConference()
     {
-        return $this->client->deleteConferenceRecordings($this->room_id);
+        return $this->client->deleteConference($this->room_id);
     }
 
     /**
