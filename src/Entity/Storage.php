@@ -34,7 +34,7 @@ class Storage extends EntityAbstract
      */
     public function getConferenceFileLibrary()
     {
-        return $this->client->conferenceFileLibrary($this->$room_id);
+        return $this->client->conferenceFileLibrary($this->room_id);
     }
 
     /**
@@ -94,7 +94,7 @@ class Storage extends EntityAbstract
      */
     public function getConferenceRecordings()
     {
-        return $this->client->conferenceRecordings($this->$room_id);
+        return $this->client->conferenceRecordings($this->room_id);
     }
 
     /**
@@ -106,7 +106,7 @@ class Storage extends EntityAbstract
      */
     public function removeConferenceRecordings()
     {
-        return $this->client->deleteConferenceRecordings($this->$room_id);
+        return $this->client->deleteConferenceRecordings($this->room_id);
     }
 
     /**
@@ -119,7 +119,7 @@ class Storage extends EntityAbstract
      */
     public function removeConferenceRecording(Int $recording_id)
     {
-        return $this->client->deleteConferenceRecording($this->$room_id, $recording_id);
+        return $this->client->deleteConferenceRecording($this->room_id, $recording_id);
     }
 
     /**
