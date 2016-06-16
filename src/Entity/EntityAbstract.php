@@ -40,7 +40,7 @@ abstract class EntityAbstract
      * @param [type] $api_key [description]
      * @param [type] $room_id [description]
      */
-    public function __construct(String $api_key, Int $room_id = null)
+    public function __construct(String $api_key, $room_id = null)
     {
         $this->api_key = $api_key;
         $this->checkApiKey();
@@ -53,7 +53,7 @@ abstract class EntityAbstract
      *
      * @param [type] $room_id [description]
      */
-    public function setRoomId(Int $room_id)
+    public function setRoomId($room_id)
     {
         if (!empty($room_id)) {
             $this->room_id = $room_id;
