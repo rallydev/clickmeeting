@@ -35,16 +35,6 @@ class Session extends EntityAbstract
     }
 
     /**
-     * Get conference sessions.
-     *
-     * @param unknown $room_id
-     */
-    public function conferenceSessions()
-    {
-        return $this->client->conferenceSessions($this->room_id);
-    }
-
-    /**
      * Get conference session.
      *
      * @param int $room_id
