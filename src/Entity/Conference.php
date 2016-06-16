@@ -70,7 +70,7 @@ class Conference extends EntityAbstract
      */
     public function deleteConference()
     {
-        return $this->client->deleteConferenceRecordings($this->room_id);
+        return $this->client->deleteConference($this->room_id);
     }
 
     /**
@@ -85,5 +85,15 @@ class Conference extends EntityAbstract
     public function conferenceSkins()
     {
         return $this->client->conferenceSkins();
+    }
+
+    /**
+     * Get conference sessions.
+     *
+     * @param unknown $room_id
+     */
+    public function conferenceSessions()
+    {
+        return $this->client->conferenceSessions($this->room_id);
     }
 }
