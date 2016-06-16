@@ -86,4 +86,14 @@ class Conference extends EntityAbstract
     {
         return $this->client->conferenceSkins();
     }
+
+    /**
+     * Get conference sessions.
+     *
+     * @param unknown $room_id
+     */
+    public function conferenceSessions()
+    {
+        return $this->client->conferenceSessions($this->room_id);
+    }
 }
