@@ -22,7 +22,7 @@ class Util extends EntityAbstract
      */
     public function getTimeZoneList()
     {
-        return $this->timeZoneList();
+        return $this->client->timeZoneList();
     }
 
     /**
@@ -34,7 +34,7 @@ class Util extends EntityAbstract
      */
     public function getCountryTimeZoneList(String $country)
     {
-        return $this->countryTimeZoneList($country);
+        return $this->client->countryTimeZoneList($country);
     }
 
     /**
@@ -44,6 +44,6 @@ class Util extends EntityAbstract
      */
     public function getPhoneGatewayList()
     {
-        return $this->phoneGatewayList();
+        return $this->client->phoneGatewayList();
     }
 }
