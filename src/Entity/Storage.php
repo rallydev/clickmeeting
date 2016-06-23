@@ -86,6 +86,16 @@ class Storage extends EntityAbstract
     }
 
     /**
+     * [postConferenceLibraryFile description]
+     * @param  String $file_path [description]
+     * @return [type]            [description]
+     */
+    public function postConferenceLibraryFile(String $file_path)
+    {
+        return $this->client->addConferenceFileLibrary($file_path);
+    }
+
+    /**
      * [getConferenceRecordings description].
      *
      * @param int $room_id [description]
