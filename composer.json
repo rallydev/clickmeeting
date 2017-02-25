@@ -1,21 +1,21 @@
 {
-    "name": "korealex/clickmeeting",
+    "name": "rallydev/clickmeeting",
     "description": "API to easily add the powerful functionality of ClickMeeting Video Conferencing to your favorite applications.",
     "type": "library",
     "keywords": ["uuid", "identifier", "guid"],
-    "homepage": "https://github.com/korealex/clickmeeting",
+    "homepage": "https://github.com/rallydev/clickmeeting",
     "license": "MIT",
     "authors": [
         {
 
             "name": "Alexis J. Rosa Rivera",
             "email": "alexisjrosarivera@gmail.com",
-            "homepage": "https://github.com/korealex/"
+            "homepage": "https://github.com/rallydev/"
         }
     ],
     "support": {
-        "issues": "https://github.com/korealex/clickmeeting/issues",
-        "source": "https://github.com/korealex/clickmeeting"
+        "issues": "https://github.com/rallydev/clickmeeting/issues",
+        "source": "https://github.com/rallydev/clickmeeting"
     },
     "require": {
         "php": ">=5.4"
